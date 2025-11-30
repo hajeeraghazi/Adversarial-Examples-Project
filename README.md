@@ -1,154 +1,214 @@
-# Adversarial-Examples-Project
+# 🚀 Adversarial Examples Project
 
-This project explores adversarial attacks and defenses on deep learning image classifiers.  
-It allows training of standard and robust models, generating adversarial examples, and comparing robustness/performance under attack.
+A complete implementation of **adversarial attacks (FGSM, PGD)**, **defenses (adversarial training)**, and **robustness evaluation** using deep learning models.
+This project is structured into **backend**, **frontend**, **models**, and **results** for clarity and scalability.
 
 ---
 
-## 📂 Repository Structure
+# 📁 Folder Structure
 
 ```
-
-root/
+Adversarial-Examples-Project/
 │
-├── training.py               # Script to train standard / robust model
-├── adversarial_backend.py    # Attack generation, evaluation, robustness logic
+├── backend/                # All Python backend code (training, attacks, evaluation)
+│     ├── training.py
+│     ├── adversarial_backend.py
+│     └── utils/            (optional helpers if added later)
 │
-├── standard_model.pth        # (optional) Pretrained standard model
-├── robust_model.pth          # (optional) Pretrained robust model
-├── ensemble_model_0.pth      # (optional) Part of ensemble model
-├── ensemble_model_1.pth
-├── ensemble_model_2.pth
+├── frontend/               # UI components (React/Next.js/Tailwind if completed)
+│     ├── Dashboard.tsx
+│     ├── globals.css
+│     ├── tailwind.config.js
+│     └── ...more files i
 │
-├── standard_robustness.png   # Robustness result plots for standard model
-├── robust_robustness.png     # Robustness result plots for robust model
-├── ensemble_robustness.png   # Robustness result plots for ensemble model
+├── models/                 # Trained model weights
+│     ├── standard_model.pth
+│     ├── robust_model.pth
+│     ├── ensemble_model_0.pth
+│     ├── ensemble_model_1.pth
+│     ├── ensemble_model_2.pth
 │
-├── requirements.txt          # Python dependencies
+├── results/                # Robustness plots & outputs
+│     ├── standard_robustness.png
+│     ├── robust_robustness.png
+│     └── ensemble_robustness.png
 │
-├── frontend files            # (TypeScript, CSS) — possibly for UI / dashboard
-│   ├── Dashboard.tsx
-│   ├── tailwind.config.js
-│   └── globals.css
-└── README.md                 # <- This file
-
-````
-
-> ⚠️ Note: There is currently **no `data/` folder**, and **no `.env.local` file** in the repository.
+└── README.md
+```
 
 ---
 
-## ✅ Prerequisites
+# 🧰 Installation & Setup
 
-- Python 3.x  
-- (Optional but recommended) A virtual environment  
-- Required packages as per `requirements.txt`
-
----
-
-## 🔧 Setup & Installation
+### 1️⃣ Clone the repository
 
 ```bash
 git clone https://github.com/hajeeraghazi/Adversarial-Examples-Project.git
 cd Adversarial-Examples-Project
+```
 
-# (Recommended) Create a virtual environment:
+### 2️⃣ Create & activate a virtual environment
+
+Windows:
+
+```bash
 python -m venv venv
-source venv/bin/activate     # Linux / macOS
-# or `venv\Scripts\activate` on Windows
+venv\Scripts\activate
+```
 
-pip install -r requirements.txt
-````
+Mac/Linux:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### 3️⃣ Install dependencies
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+✔ All Python dependencies are now installed.
 
 ---
 
-## 🔐 Configuration (Optional but Recommended)
+# 📂 Dataset Setup (MNIST / CIFAR-10)
 
-Create a file named `.env.local` at the project root (not included in repo) with configuration variables.
-Example:
+Your backend automatically downloads datasets.
+
+Create a data folder:
+
+```bash
+mkdir data
+```
+
+Datasets will be downloaded automatically into:
+
+```
+data/mnist/
+data/cifar10/
+```
+
+No manual download required ✔
+
+---
+
+# 🔐 Optional: Create `.env.local`
+
+Inside project root:
 
 ```
 DATA_DIR=./data
 MODEL_DIR=./models
-LOG_DIR=./logs
-DEVICE=cuda   # or cpu
+RESULTS_DIR=./results
+DEVICE=cuda        # or cpu
 SEED=42
 ```
 
-* `DATA_DIR` → where dataset (e.g. MNIST, CIFAR-10) will be downloaded or stored
-* `MODEL_DIR` → where trained model checkpoints will be saved/read
-* `LOG_DIR` → for logs, metrics, or other outputs
-* `DEVICE` → `cuda` or `cpu`, depending on GPU availability
-* `SEED` → for reproducible results
-
-If you do not use `.env.local`, ensure that defaults in your code paths correspond to actual folders or modify the code accordingly.
+Not required to run basic scripts, but recommended for paths.
 
 ---
 
-## 📁 Data Folder (Manually Create If Needed)
+# 🚀 How to Run the Project
 
-Since there is currently **no `data/` folder** in the repo, if your code assumes dataset files locally, you should create:
+All backend scripts are inside `/backend`.
 
-```
-data/
-  ├── mnist/      # or whichever dataset you use
-  └── cifar10/
-```
-
-Alternatively, if your scripts are designed to auto-download datasets, ensure internet connection is available when running for the first time.
-
-Example to create folder manually:
+Move into backend folder:
 
 ```bash
-mkdir -p data/mnist data/cifar10
+cd backend
 ```
 
 ---
 
-## 🚀 Usage / Workflow
-
-### 1. Train a Model (Standard or Robust)
+## 🎯 1. Train a Standard Model
 
 ```bash
-python training.py --mode standard   # train a normal model
-python training.py --mode robust     # train an adversarially-trained model
+python training.py --mode standard --dataset mnist --epochs 10
 ```
 
-Replace arguments (dataset, epochs, etc.) according to your script’s parameters.
-
-### 2. Generate Adversarial Examples & Evaluate Robustness
+## 🔒 2. Train a Robust (Adversarially-Trained) Model
 
 ```bash
-python adversarial_backend.py --attack fgsm   --eps 0.03 --dataset MNIST
-python adversarial_backend.py --attack pgd    --eps 0.03 --steps 40 --dataset CIFAR10
+python training.py --mode robust --dataset cifar10 --epochs 10
 ```
 
-This should create adversarial examples, run inference under attack with your model(s), and output robustness metrics/plots (like `*_robustness.png`).
+---
 
-### 3. (Optional) Explore Frontend / Dashboard
+## ⚡ 3. Generate Adversarial Examples (FGSM / PGD)
 
-There appears to be a UI component (TypeScript + CSS) — if you intend to enable a dashboard:
+### FGSM:
 
-* Ensure you have Node.js / npm installed
-* Add appropriate config (e.g. `package.json`)
-* Install dependencies and run the frontend (instructions need to be added)
+```bash
+python adversarial_backend.py --attack fgsm --eps 0.03 --dataset mnist
+```
+
+### PGD:
+
+```bash
+python adversarial_backend.py --attack pgd --eps 0.03 --steps 40 --dataset cifar10
+```
 
 ---
 
-## 📊 What This Project Demonstrates
+## 🔍 4. Evaluate Clean vs Adversarial Robustness
 
-* Training of clean (standard) and robust (defended) models
-* Generation of adversarial examples using common attacks (e.g. FGSM, PGD)
-* Evaluation and comparison of model robustness under adversarial attacks
-* (Optional) Visualization or UI for comparing results
+```bash
+python adversarial_backend.py --evaluate
+```
+
+Outputs saved to:
+
+```
+results/standard_robustness.png
+results/robust_robustness.png
+results/ensemble_robustness.png
+```
 
 ---
 
-## 🛠 Suggestions / Next Steps (To Make Project More Complete)
+# 🖥 Optional: Frontend (Dashboard)
 
-* Add a `.env.local` or configuration management to define paths
-* Add (or enable) a `data/` folder or dataset download logic
-* Add argument-parsing and README instructions for all command-line options
-* If using the frontend, add `package.json`, build scripts, and instructions for launching the UI
-* Add more documentation about what each script does, expected inputs/outputs
+Your **frontend** folder contains UI components for visualization.
+
+### If using Next.js or Vite:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+*(Add package.json when frontend is completed)*
+
+---
+
+# 📊 Features
+
+* FGSM & PGD adversarial attack implementation
+* Standard model training
+* Robust (adversarial) training
+* Ensemble model evaluation
+* Robustness visualization plots
+* Clean folder separation for scalability
+* Optional frontend dashboard
+
+---
+
+# 🧪 Ideal For
+
+* ML/AI coursework
+* Security & adversarial ML research
+* Portfolio & interviews
+* Experimenting with attack/defense strategies
+
+---
+
+# 📝 Future Enhancements
+
+* Add more attacks (CW, AutoAttack)
+* Add Model Zoo
+* Build full frontend dashboard
+* Add TensorBoard logging
 
