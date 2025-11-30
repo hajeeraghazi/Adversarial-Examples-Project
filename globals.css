@@ -1,0 +1,229 @@
+/* --------------------------------------------
+   FONT + BASE
+   --------------------------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap");
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --neon1: #b54fff;
+  --neon2: #ff44cc;
+  --neon3: #4fd6ff;
+
+  --neon-purple: #b54fff;
+  --neon-pink: #ff44cc;
+  --neon-blue: #4fd6ff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background: radial-gradient(
+      1200px 600px at 10% 10%,
+      rgba(90, 12, 113, 0.25),
+      transparent 10%
+    ),
+    radial-gradient(
+      1000px 500px at 90% 90%,
+      rgba(12, 40, 90, 0.25),
+      transparent 10%
+    ),
+    #050007;
+  color: #e5e7eb;
+}
+
+/* --------------------------------------------
+   GLASSMORPHISM CARD
+--------------------------------------------- */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px) saturate(150%);
+  border-radius: 20px;
+
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.55), 0 0 28px rgba(180, 0, 255, 0.12);
+}
+
+/* Hover lift */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 30px rgba(180, 0, 255, 0.55), 0 16px 48px rgba(0, 0, 0, 0.7);
+}
+
+/* --------------------------------------------
+   NEON TEXT
+--------------------------------------------- */
+.neon-text {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2), var(--neon3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* --------------------------------------------
+   NEON TABS (Navbar)
+--------------------------------------------- */
+.tab-active {
+  position: relative;
+  color: #fff !important;
+}
+
+.tab-active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+  animation: glowPulse 2s infinite ease-in-out;
+}
+
+.tab-active .tab-inner {
+  background: rgba(168, 85, 247, 0.25);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+}
+
+/* Neon underline animation */
+.tab-underline {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  width: 70%;
+  height: 3px;
+  border-radius: 5px;
+
+  background: linear-gradient(
+    90deg,
+    var(--neon-purple),
+    var(--neon-pink),
+    var(--neon-blue)
+  );
+  transform: translateX(-50%);
+  animation: gradientMove 3s infinite linear;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+  }
+}
+
+/* --------------------------------------------
+   BUTTON
+--------------------------------------------- */
+.gradient-btn {
+  background: linear-gradient(90deg, #9f7aea, #ec4899, #4fd6ff);
+  background-size: 200% 200%;
+  animation: gradientMove 5s ease infinite;
+
+  color: white;
+  border-radius: 14px;
+  padding: 12px 22px;
+
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: none;
+  cursor: pointer;
+
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.gradient-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 0 20px rgba(255, 0, 180, 0.4);
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* --------------------------------------------
+   SLIDER (Epsilon Input)
+--------------------------------------------- */
+input[type="range"] {
+  accent-color: #b54fff !important;
+  cursor: pointer;
+}
+
+/* --------------------------------------------
+   SELECT DROPDOWN
+--------------------------------------------- */
+select {
+  background-color: #0b0b12 !important;
+  color: white !important;
+  border: 1px solid #333 !important;
+}
+
+select:focus {
+  outline: 2px solid #b54fff;
+}
+
+/* --------------------------------------------
+   DIVIDER
+--------------------------------------------- */
+.divider {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 24px 0;
+}
+
+/* --------------------------------------------
+   HELPERS
+--------------------------------------------- */
+.text-muted {
+  color: #9ca3af;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --------------------------------------------
+   RESPONSIVE
+--------------------------------------------- */
+@media (max-width: 640px) {
+  .neon-text {
+    font-size: 1.6rem;
+  }
+
+  nav button {
+    padding: 8px 14px !important;
+  }
+}
